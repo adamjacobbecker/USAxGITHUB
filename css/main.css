@@ -17,3 +17,6 @@ a {
   right: 10px;
   font-size: 12px;
 }
+#results li.hidden {
+  display: none;
+}
