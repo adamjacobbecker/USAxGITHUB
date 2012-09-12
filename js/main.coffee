@@ -80,6 +80,7 @@ makeRequest = (params) ->
   """
 
   $.getJSON "http://query.yahooapis.com/v1/public/yql?q=#{yql}&format=json", (json) ->
+  $.getJSON "http://query.yahooapis.com/v1/public/yql?q=#{yql}&format=json&_maxage=600", (json) ->
     for event in json.query.results.json
       $results.append """
         <li>#{renderEvent(event.json)}</li>
