@@ -1,10 +1,25 @@
+repo_link = (name) ->
+  """<a href="http://github.com/#{name}" target="_blank">#{name}</a>"""
+
+user_link = (username) ->
+  """<a href="http://github.com/user/#{username}" target="_blank">#{username}</a>"""
+
 github_event_types =
   "CommitCommentEvent":
     name: "Commit Comment"
   "CreateEvent":
-    name: "Repo Created"
+    name: "Repo or Branch Created"
+    render: (event) ->
+      if event.payload.ref_type is "repository"
+        """ #{user_link(event.actor.login)} created #{event.payload.ref_type} #{repo_link(event.repo.name)} """
+      else
+        """ #{user_link(event.actor.login)} created #{event.payload.ref_type} "#{event.payload.ref}" on #{repo_link(event.repo.name)} """
+
   "DeleteEvent":
     name: "Branch/Tag Deleted"
+    render: (event) ->
+      """ #{user_link(event.actor.login)} deleted #{event.payload.ref_type} "#{event.payload.ref}" on #{repo_link(event.repo.name)} """
+
   "DownloadEvent":
     name: "Download"
   "FollowEvent":
@@ -31,14 +46,16 @@ github_event_types =
     name:  "Pull Request Comment"
   "PushEvent":
     name: "Push"
+    render: (event) ->
+      # todo: make this link to the correct commit
+      """ #{user_link(event.actor.login)} pushed to #{repo_link(event.repo.name)} """
+
   "TeamAddEvent":
     name: "Team Added"
   "WatchEvent":
     name: "Repo Watched"
     render: (event) ->
-      """
-        #{event.actor.login} #{event.payload.action} watching <a href="http://github.com/#{event.repo.name}" target="_blank">#{event.repo.name}</a>
-      """
+      """ #{user_link(event.actor.login)} #{event.payload.action} watching #{repo_link(event.repo.name)} """
 
 renderEvent = (event) ->
   if github_event_types[event.type]["render"]?
@@ -79,7 +96,6 @@ makeRequest = (params) ->
     | SORT(field="json.created_at", descending="true")
   """
 
-  $.getJSON "http://query.yahooapis.com/v1/public/yql?q=#{yql}&format=json", (json) ->
   $.getJSON "http://query.yahooapis.com/v1/public/yql?q=#{yql}&format=json&_maxage=600", (json) ->
     for event in json.query.results.json
       $results.append """
