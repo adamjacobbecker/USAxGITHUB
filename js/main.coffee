@@ -106,7 +106,7 @@ makeRequest = (params) ->
 for key, val of github_event_types
   html = """
     <label class="checkbox">
-      <input type="checkbox" value="#{key}" checked />
+      <input type="checkbox" value="#{key}" name="[]" checked />
       #{val.name}
     </label>
   """
@@ -126,10 +126,11 @@ $ ->
     for account in json.query.results.json.accounts
       html = """
         <label class="checkbox">
-          <input type="checkbox" value="#{account.account}" checked />
+          <input type="checkbox" value="#{account.account}" name="[]" checked />
           #{account.account}
         </label>
       """
       $("#accounts > .accordion-inner").append(html)
 
+    $("form").sisyphus()
     makeRequest()
