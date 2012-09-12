@@ -1,0 +1,19 @@
+body {
+  padding-top: 10px;
+}
+a {
+  cursor: pointer;
+}
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+.accordion-body {
+  position: relative;
+}
+.accordion-body .toggle-all {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 12px;
+}
