@@ -1,3 +1,5 @@
+sisyphus = {}
+
 repo_link = (name) ->
   """<a href="http://github.com/#{name}" target="_blank">#{name}</a>"""
 
@@ -119,6 +121,7 @@ $(document).on "click", ".toggle-all", ->
   checkboxes = $(this).parent().find(".accordion-inner input[type=checkbox]")
   checkboxes.attr('checked', (if (checkboxes.filter(":checked").length > 0) then false else true))
   makeRequest()
+  sisyphus.saveAllData()
 
 $ ->
 
@@ -132,5 +135,5 @@ $ ->
       """
       $("#accounts > .accordion-inner").append(html)
 
-    $("form").sisyphus()
+    sisyphus = $("form").sisyphus()
     makeRequest()
