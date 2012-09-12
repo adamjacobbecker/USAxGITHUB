@@ -122,8 +122,8 @@ $(document).on "click", ".toggle-all", ->
 
 $ ->
 
-  $.getJSON 'http://registry.usa.gov/accounts.json?service_id=github', (json) ->
-    for account in json.accounts
+  $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%20%3D%20%22http%3A%2F%2Fregistry.usa.gov%2Faccounts.json%3Fservice_id%3Dgithub%22&format=json&_maxage=3600&callback=", (json) ->
+    for account in json.query.results.json.accounts
       html = """
         <label class="checkbox">
           <input type="checkbox" value="#{account.account}" checked />
