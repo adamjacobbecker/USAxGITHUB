@@ -27,6 +27,22 @@ img.ribbon {
   right: 10px;
   font-size: 12px;
 }
+#results {
+  position: relative;
+}
+#results.loading {
+  height: 200px;
+}
+#results.loading:after {
+  content: ' ';
+  background: url("../img/loading.gif") no-repeat;
+  position: absolute;
+  width: 44px;
+  height: 11px;
+  left: 50%;
+  top: 50%;
+  margin: -6px 0 0 -22px;
+}
 #results li.hidden {
   display: none;
 }
